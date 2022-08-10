@@ -7,17 +7,21 @@
 
 using namespace std;
 #define int long long
-#define P 17
-#define M 1e9+7
-
+const int MOD = 1e9+7;
+const int P=17;
 int modexp(int a, int b, int m) {a %= m;int res = 1LL;while (b > 0) {if (b & 1)res = (res%m *1LL* a%m) % m;a = (a%m *1LL* a%m) % m;b >>= 1;}return res%m;}
+int modadd(int a,int b){return (a%MOD+b%MOD)%MOD;}
+int modsub(int a,int b){return (a%MOD-b%MOD + MOD)%MOD;}
+int modmul(int a,int b){return (a%MOD*1LL*b%MOD)%MOD;}
+int modinv(int a){return modexp(a,MOD-2,MOD);}
+int moddiv(int a,int b){return (a%MOD*1LL* modinv(b)%MOD)%MOD;}
 
-int createHash(int m,string &pat)
+int createHash(int m,string &pat,int P)
 {
     int hash=0;
     for(int i=0;i<m;i++)
-        hash+=(pat[i]-96)*1LL*modexp(P,i,M);
-    return hash;
+        hash=modadd(hash,modmul((pat[i]-96),modexp(P,i,MOD)%MOD));
+    return hash%MOD;
 }
 int32_t main()
 {
@@ -36,11 +40,11 @@ cin>>m;
 string pat;
 cin>>pat;
 
-int patHash=createHash(m,pat);
+int patHash=createHash(m,pat,P);
 int subHash=0;
 
 for(int i=0;i<m;i++)
-    subHash+=(s[i]-96)*1LL*modexp(P,i,M);
+    subHash=modadd(subHash,modmul((s[i]-96),modexp(P,i,MOD)));
 
 if(subHash==patHash)
     cout<<0<<endl;
@@ -48,11 +52,11 @@ if(subHash==patHash)
 for(int i=m;i<n;i++)
 {
     // Subtract Prev Index Hash Value
-    subHash-=(s[i-m]-96);
+    subHash=modsub(subHash,(s[i-m]-96));
     // Divide By prime Number
-    subHash/=P;
+    subHash=moddiv(subHash,P);
     // Add New Index* pow(P,len-1)
-    subHash+=(s[i]-96)*1LL*modexp(P,m-1,M);
+    subHash=modadd(subHash,modmul((s[i]-96),modexp(P,m-1,MOD)));
     // cout<<i<<" "<<subHash<<endl;
     if(subHash==patHash)
         cout<<i-m+1<<endl;
