@@ -49,9 +49,9 @@ vvi matExp(vvi &A,int pow){
         }
         return B;
     }
-    // vvi temp=matExp(A,pow/2);
-    if(pow%2==0)return matMul(matExp(A,pow/2),matExp(A,pow/2));
-    else return matMul(A,matMul(matExp(A,pow/2),matExp(A,pow/2)));
+    vvi temp=matExp(A,pow/2);
+    if(pow%2==0)return matMul(temp,temp);
+    else return matMul(A,matMul(temp,temp));
 }
 
 
