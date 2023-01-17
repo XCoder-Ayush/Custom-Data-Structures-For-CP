@@ -17,12 +17,12 @@ class DSU
         if(size[pu]<=size[pv])
         {
             par[pu]=pv;
-            size[pv]++;
+            size[pv]+=size[pu];
         }
         else
         {
             par[pv]=pu;
-            size[pu]++;
+            size[pu]+=size[pv];
         }
     }
     bool isConnected(int u,int v,vector<int> &par){
