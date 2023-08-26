@@ -96,29 +96,33 @@ int nCr(int n,int r,int P){int nmr=fact[n]%P;int dmr=(fact[r]%P*1LL*fact[n-r]%P)
 class RangeSum2D
 {
     public:
+
+    int n,m;
     vvi pref;
     // All 1 Based Entitites
     // ****Before Sending Array Mind It Is 1 Based
 
     RangeSum2D(int n,int m,vvi &arr)
     {
-        pref.resize(n+1,vi(m+1,0));
+        this->n=n;
+        this->m=m;
+        pref.resize(this->n + 1,vi(this->m + 1,0));
         for(int i=1;i<=n;i++){
             for(int j=1;j<=m;j++){
                 pref[i][j]=arr[i][j];
             }
         }
     }
-    void build(int n,int m,vvi &arr)
+
+    void build()
     {
     // 1 Based
         for(int i=1;i<=n;i++){
             for(int j=1;j<=m;j++){
-                pref[i][j]=arr[i][j]+pref[i-1][j]+pref[i][j-1] - pref[i-1][j-1];
+                pref[i][j]=pref[i][j]+pref[i-1][j]+pref[i][j-1] - pref[i-1][j-1];
             }
         }
     }
-
     int query(int l1,int r1,int l2,int r2){
         int ans=pref[l2][r2];
         ans-=pref[l2][r1-1];
