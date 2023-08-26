@@ -143,7 +143,7 @@ void solve()
         }
     }
     RangeSum2D ds(n,m,arr);
-    ds.build(n,m,arr);
+    ds.build();
     int q;
     cin>>q;
     while(q--){
